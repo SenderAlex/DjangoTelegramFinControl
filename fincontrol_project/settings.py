@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fincontrol_app',
-    'registration_app'
+    'registration_app',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

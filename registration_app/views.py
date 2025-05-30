@@ -28,3 +28,18 @@ def register(request):
     else:
         form = CustomerUserCreationForm()  # пустая форма при заходе в первый раз
     return render(request, 'registration_app/register.html', {'form': form})
+
+
+def profile(request):
+    user = request.user
+    email = user.email
+    first_name = user.first_name
+    last_name = user.last_name
+
+    context = {
+        'email': email,
+        'first_name': first_name,
+        'last_name': last_name
+    }
+
+    return render(request, 'registration_app/profile.html', {'context': context})

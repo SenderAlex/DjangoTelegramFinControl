@@ -1,6 +1,31 @@
 {% extends "registration_app/base.html" %}
+{% load static %}
 
 {% block content %}
 <h1>Добро пожаловать!</h1>
 <p>Это главная страница сайта.</p>
+
+
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'img/demo.png' %}" class="d-block" alt="Демо 1">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/demo2.png' %}" class="d-block" alt="Демо 2">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'img/demo.png' %}" class="d-block" alt="Демо 3">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 {% endblock %}

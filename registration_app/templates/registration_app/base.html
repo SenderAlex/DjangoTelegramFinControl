@@ -36,7 +36,10 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             {% if user.is_authenticated %}
-            <a href="{% url 'index' %}" class="btn btn-outline-primary me-2">{{ form.first_name }}</a>
+            <a href="{% url 'index' %}" class="btn btn-outline-primary me-2">{{ user.first_name }} {{ user.last_name }}</a>
+
+            <a href="{% url 'fincontrol_app:transaction_list' %}" class="btn btn-outline-primary me-2">Список операций</a>
+
             <form action="{% url 'logout' %}" method="post" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-secondary me-2">Выход</button>
