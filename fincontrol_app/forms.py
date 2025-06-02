@@ -8,7 +8,7 @@ class TransactionForm(forms.ModelForm):
         fields = ['type', 'category', 'amount', 'description', 'date']
         widgets = {
                     'amount': forms.NumberInput(attrs={'class': 'form-control'}),
-                    'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+                    'date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
                     'type': forms.Select(attrs={'class': 'form-select'}),
                     'category': forms.Select(attrs={'class': 'form-select'}),
                     'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5})

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -14,6 +15,7 @@ class Category(models.Model):
 
 
 class Transaction(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     TRANSACTION_TYPES = (('income', 'Доход'), ('expense', 'Расход'))  # может быть и [], и ()
     type = models.CharField(max_length=10, choices=TRANSACTION_TYPES)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)  # on_delete=models.CASCADE  -- если пользователь
@@ -21,7 +23,7 @@ class Transaction(models.Model):
 
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(blank=True, null=True)  # blank=True -- поле необязательное для заполнения
-    date = models.DateTimeField(default=now)
+    date = models.DateTimeField(default=now)  #?????
 
     class Meta:
         ordering = ['-date']

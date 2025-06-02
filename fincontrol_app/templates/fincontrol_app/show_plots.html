@@ -1,0 +1,17 @@
+{% extends 'fincontrol_app/layout.html' %}
+
+{% block content %}
+    <div class="container-fluid mt-4">
+        <h1>Вывод диаграмм по категориям</h1>
+        {% if img %}
+            <img src="data:img/png;base64,{{ img }}" alt="График расходов по категориям">
+        {% else %}
+            <p>График не доступен</p>
+        {% endif %}
+    </div>
+    <form method="post" action="{% url 'fincontrol_app:report_to_excel' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Сформировать отчет в MS Excel</button>
+        <button type="button" class="btn btn-danger" onclick="window.history.back();">Отмена</button>
+    </form>
+{% endblock %}
