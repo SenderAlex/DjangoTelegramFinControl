@@ -1,12 +1,38 @@
 {% extends 'fincontrol_app/layout.html' %}
 {% block content %}
-<div class="container mt-4" style="max-width: 600px;">
-    <h1 class="mb-4">Добавить транзакцию</h1>
-    <form method="POST" novalidate>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Сохранить</button>
-        <button type="button" class="btn btn-danger" onclick="window.history.back();">Отмена</button>
-    </form>
-</div>
+    <div class="container mt-4" style="max-width: 600px;">
+        <h1 class="mb-4">Добавить транзакцию</h1>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Сохранить</button>
+            <button type="button" class="btn btn-danger" onclick="window.history.back();">Отмена</button>
+        </form>
+    </div>
+    <script>
+        {# Разобраться со скриптом #}
+        document.addEventListener('DOMContentLoaded', function () {
+            const typeSelect = document.querySelector('select[name="type"]');
+            const categorySelect = document.querySelector('select[name="category"]');
+
+            typeSelect.addEventListener('change', function () {
+                const selectedType = this.value;
+                const url = `/get_categories/${selectedType}/`;  // URL к вашему представлению для получения категорий
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Очищаем старые опции
+                        categorySelect.innerHTML = '';
+
+                        // Заполняем новые опции
+                        data.categories.forEach(function (category) {
+                            const option = new Option(category.name, category.id);
+                            categorySelect.add(option);
+                        });
+                    });
+            });
+        });
+        {# Разобраться со скриптом #}
+    </script>
 {% endblock %}

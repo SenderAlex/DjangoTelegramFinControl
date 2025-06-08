@@ -7,6 +7,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # Уникальное поле для email
     first_name = models.CharField(max_length=15, blank=True, null=True)
     last_name = models.CharField(max_length=15, blank=True, null=True)
+    telegram_id = models.BigIntegerField(null=True, blank=True)
     date = models.DateTimeField(default=now)
 
     USERNAME_FIELD = 'email'  # Указываем, что уникальным полем будет email

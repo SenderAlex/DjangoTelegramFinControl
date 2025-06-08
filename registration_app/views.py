@@ -10,10 +10,10 @@ from django.db import IntegrityError  # исключение (exception), кот
 class IndexView(TemplateView):
     template_name = 'registration_app/index.html'
 
-
-class ProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'registration_app/profile.html'
-    login_url = reverse_lazy('login')
+#
+# class ProfileView(LoginRequiredMixin, TemplateView):
+#     template_name = 'registration_app/profile.html'
+#     login_url = reverse_lazy('login')
 
 
 def register(request):
@@ -42,4 +42,4 @@ def profile(request):
         'last_name': last_name
     }
 
-    return render(request, 'registration_app/profile.html', {'context': context})
+    return render(request, 'registration_app/profile.html', context)
