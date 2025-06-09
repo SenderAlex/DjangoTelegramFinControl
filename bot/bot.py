@@ -8,6 +8,11 @@ from keaboards import keyboards
 from registration_handlers import router as registration_router
 from plot_handlers import router as plot_router
 from voice_input_handlers import router as voice_input_router
+from scheduler import send_daily_summary
+import pytz
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+minsk_tz = pytz.timezone('Europe/Minsk')
 
 
 bot = Bot(token=TOKEN)
@@ -18,6 +23,14 @@ dp.include_router(voice_input_router)
 logging.basicConfig(level=logging.INFO)
 
 
+scheduler = AsyncIOScheduler(timezone=minsk_tz)
+
+
+async def on_startup(dispatcher):
+    scheduler.add_job(send_daily_summary, 'cron', hour=23, minute=37, timezone=minsk_tz)
+    scheduler.start()
+
+
 @dp.message(Command('start'))
 async def send_start(message: Message):
     await message.answer("Привет! Я твой помощник по учету финансов")
@@ -25,6 +38,7 @@ async def send_start(message: Message):
 
 
 async def main():
+    await on_startup(dp)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':

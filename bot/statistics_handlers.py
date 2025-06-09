@@ -6,6 +6,7 @@ import pandas as pd
 import os
 import django
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')
 django.setup()
 
