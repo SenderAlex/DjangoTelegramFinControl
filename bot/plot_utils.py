@@ -1,4 +1,8 @@
+from aiogram import Router
 import matplotlib.pyplot as plt
+
+
+router = Router()
 
 
 def plot_pie(data, title):

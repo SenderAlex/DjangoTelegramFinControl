@@ -6,7 +6,6 @@ from aiogram.types import Message
 from config import TOKEN
 from keaboards import keyboards
 from registration_handlers import router as registration_router
-from statistics_handlers import router as statistics_router
 from plot_handlers import router as plot_router
 from voice_input_handlers import router as voice_input_router
 
@@ -14,7 +13,6 @@ from voice_input_handlers import router as voice_input_router
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 dp.include_router(registration_router)
-dp.include_router(statistics_router)
 dp.include_router(plot_router)
 dp.include_router(voice_input_router)
 logging.basicConfig(level=logging.INFO)

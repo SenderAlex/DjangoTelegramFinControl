@@ -1,4 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 
 button_registr = KeyboardButton(text="Регистрация")
 button_voice_data = KeyboardButton(text="Голосовой ввод данных")
@@ -18,3 +18,11 @@ keyboards = ReplyKeyboardMarkup(keyboard=[
     [button_category_plots_income, button_category_plots_expense, button_category_hist_income,
      button_category_hist_expense],
     ], resize_keyboard=True)
+
+
+def period_choice_keyboard():
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Показать за выбранный период", callback_data="choose_period")],
+        [InlineKeyboardButton(text="Оставить как есть", callback_data="all_period")]
+    ])
+    return kb
