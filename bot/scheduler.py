@@ -28,9 +28,9 @@ async def send_daily_summary():
             continue
 
         data = {
-            'date': [t.date for t in transactions],
-            'amount': [t.amount for t in transactions],
-            'type': [t.type for t in transactions],
+            'date': [transaction.date for transaction in transactions],
+            'amount': [transaction.amount for transaction in transactions],
+            'type': [transaction.type for transaction in transactions],
         }
         df = pd.DataFrame(data)
         df['date'] = pd.to_datetime(df['date']).dt.date

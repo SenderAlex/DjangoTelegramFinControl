@@ -27,7 +27,7 @@ scheduler = AsyncIOScheduler(timezone=minsk_tz)
 
 
 async def on_startup(dispatcher):
-    scheduler.add_job(send_daily_summary, 'cron', hour=23, minute=37, timezone=minsk_tz)
+    scheduler.add_job(send_daily_summary, 'cron', hour=7, minute=00, timezone=minsk_tz)
     scheduler.start()
 
 
