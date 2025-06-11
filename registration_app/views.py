@@ -1,7 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from .forms import CustomerUserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CustomerUserCreationForm, CustomUserUpdateForm
 from django.views.generic import TemplateView  # для отображения простых HTML-шаблонов без дополнительной логики.
 from django.db import IntegrityError  # исключение (exception), которое выбрасывается при нарушении ограничений
 # целостности базы данных.
@@ -9,11 +8,6 @@ from django.db import IntegrityError  # исключение (exception), кот
 
 class IndexView(TemplateView):
     template_name = 'registration_app/index.html'
-
-#
-# class ProfileView(LoginRequiredMixin, TemplateView):
-#     template_name = 'registration_app/profile.html'
-#     login_url = reverse_lazy('login')
 
 
 def register(request):
@@ -30,16 +24,13 @@ def register(request):
     return render(request, 'registration_app/register.html', {'form': form})
 
 
-def profile(request):
-    user = request.user
-    email = user.email
-    first_name = user.first_name
-    last_name = user.last_name
-
-    context = {
-        'email': email,
-        'first_name': first_name,
-        'last_name': last_name
-    }
-
-    return render(request, 'registration_app/profile.html', context)
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = CustomUserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+    else:
+        form = CustomUserUpdateForm(instance=request.user)
+    return render(request, 'registration_app/profile.html', {'form': form})

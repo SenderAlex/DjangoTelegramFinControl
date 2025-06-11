@@ -1,21 +1,48 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from .models import Transaction, Category
 from .forms import TransactionForm
 from django.contrib.auth.decorators import login_required  # ограничение доступа к функциям для зарегистрированных пользователей
+from django.http import HttpResponse, JsonResponse
+from django.utils.dateparse import parse_date
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from io import BytesIO  # ???
 import base64  # ????
-from django.http import HttpResponse, JsonResponse
-from django.utils.dateparse import parse_date
+from datetime import datetime, timedelta
 
 
 @login_required
 def transaction_list(request):
+    # Получаем все транзакции пользователя и сортируем по дате
     transactions = Transaction.objects.filter(user=request.user).order_by('-date')
-    return render(request, 'fincontrol_app/transaction_list.html', {'transactions': transactions})
+
+    # Получаем параметры фильтра из GET-запроса
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Применяем фильтр по дате начала
+    if start_date:
+        transactions = transactions.filter(date__gte=start_date)
+
+    # Применяем фильтр по дате конца
+    if end_date:
+        end_date_obj = datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1)
+        transactions = transactions.filter(date__lte=end_date_obj)
+
+    # Мы хотим отображать 10 записей на страницу
+    paginator = Paginator(transactions, 5)  # 5 записей на страницу
+
+    # Получаем номер текущей страницы из GET-запроса
+    page_number = request.GET.get('page')
+
+    # Получаем объекты текущей страницы
+    page_obj = paginator.get_page(page_number)
+
+    # Передаем в контекст данных список транзакций для текущей страницы
+    return render(request, 'fincontrol_app/transaction_list.html', {'page_obj': page_obj})
 
 
 @login_required
@@ -168,7 +195,8 @@ def report_to_excel(request):
     if date_from_parsed:
         qs = qs.filter(date__date__gte=date_from_parsed)
     if date_to_parsed:
-        qs = qs.filter(date__date__lte=date_to_parsed)
+        date_to_plus = date_to_parsed + timedelta(days=1)
+        qs = qs.filter(date__date__lt=date_to_plus)
 
     df = pd.DataFrame(qs.values('type', 'category__name', 'date', 'amount'))
     if df.empty:
@@ -179,6 +207,17 @@ def report_to_excel(request):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         workbook = writer.book
+
+        # 1) Добавляем лист со списком транзакций (первый лист)
+        df_sorted = df.sort_values(by='date', ascending=False)
+        df_sorted.rename(columns={
+            'type': 'Тип',
+            'category__name': 'Категория',
+            'date': 'Дата',
+            'amount': 'Сумма',
+            'description': 'Описание'
+        }, inplace=True)
+        df_sorted.to_excel(writer, sheet_name='Транзакции', index=False)
 
         def insert_plot(df_grouped, chart_title, sheet_name, startrow, startcol, chart_type='pie', stacked=False):
             worksheet = workbook.add_worksheet(sheet_name)

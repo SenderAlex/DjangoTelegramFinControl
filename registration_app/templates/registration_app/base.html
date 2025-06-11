@@ -54,7 +54,7 @@
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-secondary me-2">Выход</button>
                 </form>
-                <a href="{% url 'profile' %}" class="btn btn-outline-secondary">Профиль</a>
+                <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary">Редактировать профиль</a>
             {% else %}
                 <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Вход</a>
                 <a href="{% url 'register' %}" class="btn btn-outline-success">Регистрация</a>
