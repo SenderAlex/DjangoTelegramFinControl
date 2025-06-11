@@ -1,0 +1,14 @@
+{% extends 'fincontrol_app/layout.html' %}
+
+{% block content %}
+
+    <div class="container mt-5" style="max-width: 600px;">
+        <h1>Корректировка транзакции</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Изменить</button>
+            <button type="button" class="btn btn-danger" onclick="window.history.back();">Отмена</button>
+        </form>
+    </div>
+{% endblock %}
