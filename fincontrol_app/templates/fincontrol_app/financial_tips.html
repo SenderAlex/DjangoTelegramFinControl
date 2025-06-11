@@ -1,0 +1,28 @@
+{% extends 'fincontrol_app/layout.html' %}
+
+{% block content %}
+
+    <div class="container mt-5" style="max-width: 660px;">
+        <h1>Советы по расходам и заработку</h1>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-primary">
+            <tr>
+                <th>№</th>
+                <th>Совет</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for  tip in tips %}
+                {% with forloop.counter as index %}
+                <tr>
+                    <td>{{ index }}</td>
+                    <td>{{ tip }}</td>
+                </tr>
+                {% endwith %}
+            {% endfor %}
+            </tbody>
+        </table>
+    <button type="button" class="btn btn-danger" onclick="window.history.back();">Назад</button>
+    </div>
+{% endblock %}

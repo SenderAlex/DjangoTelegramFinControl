@@ -32,7 +32,7 @@ def transaction_list(request):
         end_date_obj = datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1)
         transactions = transactions.filter(date__lte=end_date_obj)
 
-    # Мы хотим отображать 10 записей на страницу
+    # Мы хотим отображать 5 записей на страницу
     paginator = Paginator(transactions, 5)  # 5 записей на страницу
 
     # Получаем номер текущей страницы из GET-запроса
@@ -319,6 +319,17 @@ def edit_transaction(request, pk):
     else:
         form = TransactionForm(instance=transaction)
         return render(request, 'fincontrol_app/edit_transaction.html', {'form': form})
+
+@login_required
+def financial_tips(request):
+    tips = [
+        "Ведите учёт всех расходов и доходов.",
+        "Откладывайте минимум 10% от дохода.",
+        "Регулярно анализируйте траты по категориям.",
+        "Ищите возможности дополнительного заработка: фриланс, инвестиции, обучение новым навыкам.",
+        "Сравнивайте цены и ищите скидки перед покупкой.",
+    ]
+    return render (request, 'fincontrol_app/financial_tips.html', {'tips': tips})
 
 
 

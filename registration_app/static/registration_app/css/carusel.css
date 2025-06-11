@@ -1,0 +1,6 @@
+.carousel-container {
+  display: flex;
+  justify-content: center; /* Центрирует по горизонтали */
+  align-items: center;     /* Центрирует по вертикали, если контейнер имеет высоту */
+  height: 100vh;           /* Задает высоту контейнера по высоте экрана (по желанию) */
+}
