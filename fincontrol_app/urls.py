@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import transaction_list, add_transaction, show_plots, report_to_excel, get_categories
+from .views import transaction_list, add_transaction, show_plots, report_to_excel, get_categories, edit_transaction
 
 app_name = 'fincontrol_app'
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path('plot/', show_plots, name='show_plots'),
     path('excel/', report_to_excel, name='report_to_excel'),
     path('get_categories/<str:type>/', get_categories, name='get_categories'),
+    path('transaction/<int:pk>/edit/', edit_transaction, name='edit_transaction')
 ]

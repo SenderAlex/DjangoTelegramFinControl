@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Transaction, Category
 from .forms import TransactionForm
 from django.contrib.auth.decorators import login_required  # ограничение доступа к функциям для зарегистрированных пользователей
@@ -307,6 +307,18 @@ def get_categories(request, type):  # в зависимости от типа с
     categories = Category.objects.filter(type=type).values('id', 'name')
     return JsonResponse({'categories': list(categories)})
 
+
+@login_required
+def edit_transaction(request, pk):
+    transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+        if form.is_valid():
+            form.save()
+            return redirect('fincontrol_app:transaction_list')
+    else:
+        form = TransactionForm(instance=transaction)
+        return render(request, 'fincontrol_app/edit_transaction.html', {'form': form})
 
 
 

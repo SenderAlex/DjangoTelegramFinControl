@@ -30,7 +30,6 @@ class TransactionForm(forms.ModelForm):
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty Category queryset
         elif self.instance.pk:  # ?????
-            #self.fields['category'].queryset = self.instance.category.type.category_set.all()  # ?????
             if self.instance and self.instance.category and self.instance.category.type:
                 type_instance = self.instance.category.type
                 self.fields['category'].queryset = Category.objects.filter(type=type_instance)
@@ -39,3 +38,5 @@ class TransactionForm(forms.ModelForm):
 
         else:
             self.fields['category'].queryset = Category.objects.none()  # устанавливает пустой набор данных для поля category
+
+
