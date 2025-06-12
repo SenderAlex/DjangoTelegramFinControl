@@ -11,6 +11,15 @@ from voice_input_handlers import router as voice_input_router
 from scheduler import send_daily_summary
 import pytz
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import os
+import django
+
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')  # Укажите ваш settings
+django.setup()
+from registration_app.models import CustomUser
+from fincontrol_app.models import Transaction, Category
+
 
 minsk_tz = pytz.timezone('Europe/Minsk')
 
