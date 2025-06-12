@@ -1,0 +1,1 @@
+AI_TOKEN = 'YOUR_OPENAI_TOKEN'  # Замените на ваш AI_TOKEN

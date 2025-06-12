@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO  # ???
 import base64  # ????
 from datetime import datetime, timedelta
+from ai_service.ai_tips import get_financial_advice_from_chatgpt
 
 
 @login_required
@@ -320,6 +321,7 @@ def edit_transaction(request, pk):
         form = TransactionForm(instance=transaction)
         return render(request, 'fincontrol_app/edit_transaction.html', {'form': form})
 
+
 @login_required
 def financial_tips(request):
     tips = [
@@ -330,6 +332,23 @@ def financial_tips(request):
         "Сравнивайте цены и ищите скидки перед покупкой.",
     ]
     return render (request, 'fincontrol_app/financial_tips.html', {'tips': tips})
+
+
+def get_history_expenses(user, limit=30):
+    expenses = Transaction.objects.filter(user=user, type='expense').order_by('-date')[:limit]
+    history = []
+    for expense in expenses:
+        history.append(f'{expense.date.strtime("%Y-%m-%d")}: {expense.amount} рублей -- {expense.category.name}'
+                       f' {expense.description}')
+
+    return '\n'.join(history)
+
+
+@login_required
+def ai_financial_tips(request):
+    expenses = get_history_expenses(request.user)
+    advices = get_financial_advice_from_chatgpt(expenses)
+    return render(request, 'fincontrol_app/ai_tips.html', {'advices': advices})
 
 
 
