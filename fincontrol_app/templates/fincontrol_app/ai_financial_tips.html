@@ -8,19 +8,13 @@
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-primary">
             <tr>
-                <th>№</th>
                 <th>Совет</th>
             </tr>
             </thead>
             <tbody>
-            {% for  advice in advice %}
-                {% with forloop.counter as index %}
                 <tr>
-                    <td>{{ index }}</td>
-                    <td>{{ advice }}</td>
+                    <td>{{ advices }}</td>
                 </tr>
-                {% endwith %}
-            {% endfor %}
             </tbody>
         </table>
     <button type="button" class="btn btn-danger" onclick="window.history.back();">Назад</button>

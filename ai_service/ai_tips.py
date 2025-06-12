@@ -1,24 +1,29 @@
-import os
-import openai
-from config_ai import AI_TOKEN
+from openai import OpenAI
+from openai import RateLimitError, OpenAIError
+from .config_ai import AI_TOKEN
 
 
-openai.api_key = os.getenv(AI_TOKEN)
+client = OpenAI(api_key=AI_TOKEN)
 
 
 def get_financial_advice_from_chatgpt(expense_history_text):
-    prompt = (
-        "Ты финансовый консультант. На основе истории трат пользователя дай практические советы по экономии и идеям для заработка.\n"
-        f"История трат:\n{expense_history_text}\n"
-        "Дай рекомендации простым и понятным языком."
-    )
-    response = openai.ChatCompletion.create(
-        model="gpt-4",  # или "gpt-3.5-turbo"
-        messages=[
-            {"role": "system", "content": "Ты финансовый консультант."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=700,
-        temperature=0.7,
-    )
-    return response.choices[0].message.content
+    messages = [
+        {"role": "system", "content": "Ты финансовый консультант."},
+        {"role": "user", "content": f"На основе истории трат пользователя дай советы:\n{expense_history_text}"}
+    ]
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  # или "gpt-3.5-turbo"
+            messages=messages,
+            max_tokens=700,
+            temperature=0.7,
+        )
+        return response.choices[0].message.content
+    except RateLimitError:
+        return "Превышен лимит запросов к AI. Попробуйте позже."
+    except OpenAIError as e:
+        return f"Ошибка OpenAI API: {str(e)}"
+    except Exception as e:
+        return f"Произошла непредвиденная ошибка: {str(e)}"
+

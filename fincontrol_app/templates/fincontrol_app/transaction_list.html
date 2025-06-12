@@ -20,8 +20,6 @@
         <h1>Список транзакций</h1>
         <a href="{% url 'fincontrol_app:add_transaction' %}" class="btn btn-success mb-3">Добавить транзакцию</a>
         <a href="{% url 'fincontrol_app:show_plots' %}" class="btn btn-primary mb-3">Показать графики</a>
-        <a href="{% url 'fincontrol_app:financial_tips' %}" class="btn btn-info mb-3">Советы по финансовой грамотности</a>
-        <a href="{% url 'fincontrol_app:ai_financial_tips' %}" class="btn btn-info mb-3">Советы по финансовой грамотности от ChatGPT</a>
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-primary">
             <tr>
@@ -51,6 +49,9 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <a href="{% url 'fincontrol_app:financial_tips' %}" class="btn btn-secondary mb-3">Советы по финансовой <br> грамотности</a>
+        <a href="{% url 'fincontrol_app:ai_financial_tips' %}" class="btn btn-secondary mb-3">Советы по финансовой <br> грамотности от ChatGPT</a>
 
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">

@@ -338,7 +338,11 @@ def get_history_expenses(user, limit=30):
     expenses = Transaction.objects.filter(user=user, type='expense').order_by('-date')[:limit]
     history = []
     for expense in expenses:
-        history.append(f'{expense.date.strtime("%Y-%m-%d")}: {expense.amount} рублей -- {expense.category.name}'
+        if isinstance(expense.date, str):
+            date_obj = datetime.strptime(expense.date, "%Y-%m-%d")
+        else:
+            date_obj = expense.date
+        history.append(f'{date_obj.strftime("%Y-%m-%d")}: {expense.amount} рублей -- {expense.category.name}'
                        f' {expense.description}')
 
     return '\n'.join(history)
@@ -348,7 +352,7 @@ def get_history_expenses(user, limit=30):
 def ai_financial_tips(request):
     expenses = get_history_expenses(request.user)
     advices = get_financial_advice_from_chatgpt(expenses)
-    return render(request, 'fincontrol_app/ai_tips.html', {'advices': advices})
+    return render(request, 'fincontrol_app/ai_financial_tips.html', {'advices': advices})
 
 
 
