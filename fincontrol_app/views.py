@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO  # ???
 import base64  # ????
 from datetime import datetime, timedelta
-from ai_service.ai_tips import get_financial_advice_from_chatgpt
+from ai_service.ai_tips import get_financial_advice_from_yandexgpt
 
 
 @login_required
@@ -348,10 +348,27 @@ def get_history_expenses(user, limit=30):
     return '\n'.join(history)
 
 
+def get_history_incomes(user, limit=30):
+    incomes = Transaction.objects.filter(user=user, type='income').order_by('-date')[:limit]
+    history = []
+    for income in incomes:
+        if isinstance(income.date, str):
+            date_obj = datetime.strptime(income.date, "%Y-%m-%d")
+        else:
+            date_obj = income.date
+        history.append(f'{date_obj.strftime("%Y-%m-%d")}: {income.amount} рублей -- {income.category.name}'
+                       f' {income.description}')
+
+    return '\n'.join(history)
+
+
 @login_required
 def ai_financial_tips(request):
     expenses = get_history_expenses(request.user)
-    advices = get_financial_advice_from_chatgpt(expenses)
+    incomes = get_history_incomes(request.user)
+    advices = get_financial_advice_from_yandexgpt(incomes, expenses)
+    advices = advices.split('###')
+    advices = advices[1:]
     return render(request, 'fincontrol_app/ai_financial_tips.html', {'advices': advices})
 
 

@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="container mt-5" style="max-width: 660px;">
-        <h1>Советы по расходам и заработку от ChatGPT</h1>
+        <h1>Советы по расходам и заработку от YandexGPT</h1>
 
         <table class="table table-bordered table-striped table-hover">
             <thead class="table-primary">
@@ -12,9 +12,11 @@
             </tr>
             </thead>
             <tbody>
+            {% for advice in advices %}
                 <tr>
-                    <td>{{ advices }}</td>
+                    <td>{{ advice }}</td>
                 </tr>
+            {% endfor %}
             </tbody>
         </table>
     <button type="button" class="btn btn-danger" onclick="window.history.back();">Назад</button>
