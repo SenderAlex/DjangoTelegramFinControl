@@ -1,15 +1,8 @@
 from aiogram.types import Message
 from asgiref.sync import sync_to_async
-from utils import get_user_transactions_async # Импортируйте функции работы с БД
+from utils import get_user_transactions_async  # Импортируйте функции работы с БД
 from keaboards import period_choice_keyboard
 import pandas as pd
-import os
-import django
-
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')
-django.setup()
-
 from registration_app.models import CustomUser
 
 

@@ -1,3 +1,14 @@
+import os
+import sys
+import django
+
+
+# Добавляем корень проекта в PYTHONPATH
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')  # Укажите ваш settings
+django.setup()
+
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
@@ -11,16 +22,8 @@ from voice_input_handlers import router as voice_input_router
 from scheduler import send_daily_summary
 import pytz
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-import os
-import sys
-import django
 
 
-# Добавляем корень проекта в PYTHONPATH
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')  # Укажите ваш settings
-django.setup()
 from registration_app.models import CustomUser
 from fincontrol_app.models import Transaction, Category
 

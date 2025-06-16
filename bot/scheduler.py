@@ -4,12 +4,6 @@ from asgiref.sync import sync_to_async
 import pandas as pd
 from utils import get_user_transactions_async
 from config import TOKEN
-import os
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')
-django.setup()
-
 from registration_app.models import CustomUser
 
 

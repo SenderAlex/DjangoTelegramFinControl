@@ -1,11 +1,4 @@
 from asgiref.sync import sync_to_async
-import os
-import django
-
-# Путь к настройкам вашего Django-проекта
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')
-django.setup()
-
 from registration_app.models import CustomUser
 from fincontrol_app.models import Transaction
 

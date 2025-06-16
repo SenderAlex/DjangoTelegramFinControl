@@ -1,10 +1,5 @@
 import re
-import os
-import django
 from asgiref.sync import sync_to_async
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')  # Укажите ваш settings
-django.setup()
 from registration_app.models import CustomUser
 from fincontrol_app.models import Transaction, Category
 

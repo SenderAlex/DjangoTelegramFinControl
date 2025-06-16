@@ -9,10 +9,6 @@ from plot_utils import plot_pie, plot_bar, plot_category_bar
 from keaboards import period_choice_keyboard
 from states import PeriodSelection
 from statistics_handlers import income_statistics, expense_statistics
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fincontrol_project.settings')
-django.setup()
 from registration_app.models import CustomUser
 
 router = Router()
