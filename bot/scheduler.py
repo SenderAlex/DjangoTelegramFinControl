@@ -1,13 +1,9 @@
 from datetime import datetime, timedelta
-from aiogram import Bot
 from asgiref.sync import sync_to_async
 import pandas as pd
 from utils import get_user_transactions_async
-from config import TOKEN
 from registration_app.models import CustomUser
-
-
-bot = Bot(token=TOKEN)
+from bot_instance import bot
 
 
 async def send_daily_summary():

@@ -1,17 +1,16 @@
-from aiogram import Bot, Router, F, types
+from aiogram import Router, F, types
 from states import VoiceInput
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 import os
 from voice_input_data import parse_transaction, save_transaction
 import whisper
-from config import TOKEN
+from bot_instance import bot
 
 import sys
 ffmpeg_path = r"C:\Работа\Python_with_ChatGPT\Модуль_1\Урок_77 Итоговый проект\DjangoTelegramFinControl\ffmpeg\bin"
 os.environ["PATH"] += os.pathsep + ffmpeg_path
 
-bot = Bot(token=TOKEN)
 router = Router()
 
 model = whisper.load_model("base")
